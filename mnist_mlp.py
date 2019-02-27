@@ -5,7 +5,7 @@ import numpy as np
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
-from keras.optimizers import RMSprop
+from keras.optimizers import Adamax
 
 batch_size = 128
 num_classes = 10
@@ -23,6 +23,14 @@ x_test /= 255
 print(x_train.shape[0], 'train samples')
 print(x_test.shape[0], 'test samples')
 
+print(y_train)
+total0 = 0
+count0 = 0
+for count0 in range (0,59999,1):
+        if y_train[count0] == 0:
+                total0 = total0 + 1
+print(total0,'= label=0 no number')
+
 # convert class vectors to binary class matrices
 y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
@@ -37,7 +45,7 @@ model.add(Dense(num_classes, activation='softmax'))
 model.summary()
 
 model.compile(loss='categorical_crossentropy',
-              optimizer=RMSprop(),
+              optimizer=Adamax(),
               metrics=['accuracy'])
 
 history = model.fit(x_train, y_train,
